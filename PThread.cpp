@@ -444,7 +444,7 @@ int main ( int argc, char* argv[] )
 	int randomSize = 16;
 
 	// User input
-	randomSize = 64;
+	randomSize = userInput();
 	
 	srand(time(NULL));
 
@@ -523,6 +523,7 @@ int main ( int argc, char* argv[] )
 	end_t = clock();
 	//display((void *) matProps); // Display matrix after transformation. Used for testing purposes
 	cout << "PThread Using Diagonal Method For Transformation of A Matrix Results:" << endl << endl;
+	cout << "Matrix Size: " << randomSize << endl;
 	cout << "Number of Threads: " << numThread << endl;
 	cout << "Rows Transposed Per Thread: " << randomSize/numThread << endl;
 	cout << "Time taken to execute: " << (double)(end_t - start_t)/CLOCKS_PER_SEC << "s" << endl << endl << endl;
@@ -657,10 +658,11 @@ int main ( int argc, char* argv[] )
 	end_t = clock();
 
 	cout << "PThread Using Blocks Method For Transformation of A Matrix Results:" << endl << endl; 
+	cout << "Matrix Size: " << randomSize << endl;
 	cout << "Number of Threads: " << numberThreads << endl;
 	cout << "Number of Blocks: " << numBlocks << endl;
 	cout << "Block Size (Number of Elements in Block): " << blockSize << endl;
-	cout << "Block Dimension (Height or Width as its square): " << blockSizeDim << endl;
+	cout << "Block Height/Width: " << blockSizeDim << endl;
 	cout << "Time taken to execute: " << (double)(end_t - start_t)/CLOCKS_PER_SEC << "s" << endl;
 
 	//display((void *) matProps2); // Display final matrix after transformation. Used for testing
