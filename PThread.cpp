@@ -14,26 +14,20 @@ struct matrixDiagTransformProps{
 	int* numbers = NULL;
 	int rowStartEvaluate = 0;
 	int numRowsEvaluate = 0;
-	
 };
 
 struct matrixBlockTransformProps{
 
 	int randomSize;
 	int* numbers = NULL;
-	//int id = 0;
 	int blockSize = 0;
 	int blockDim = 0;
-	//int count = 0;
-
 	int startPlaceHolder1 = 0;
 	int endPlaceHolder1 = 0;
 	int startPlaceHolder2 = 0;
 	int endPlaceHolder2 = 0;
-	int offset = 0;
 	int* transpose1 = NULL;
-	int* transpose2 = NULL;
-	
+	int* transpose2 = NULL;	
 };
 
 // Display findl result matrix
@@ -93,7 +87,6 @@ void* transformDiagNorm(void* args)
 			row++;
 			multi = 1; // Reset multiplier to get correct values to transpose.
 		}
-		//cin.get();
 
 	}
 	return (NULL);
@@ -136,7 +129,6 @@ void* transformBlock(void* args)
 
 	for(i; i < matTemp->blockDim*matTemp->blockDim; i++)
 	{
-		//cout << matTemp->transpose1[i] << endl;
 		// Do transposition.
 		temp = matTemp->transpose1[i];
 		matTemp->transpose1[i] = matTemp->transpose1[i+multi*(matTemp->blockDim-1)];
@@ -167,7 +159,6 @@ void* transformBlocks(void* args)
 
 	for(i; i < matTemp->blockDim*matTemp->blockDim; i++)
 	{
-		//cout << matTemp->transpose1[i] << endl;
 		// Do transposition.
 		temp = matTemp->transpose1[i];
 		matTemp->transpose1[i] = matTemp->transpose1[i+multi*(matTemp->blockDim-1)];
@@ -191,11 +182,11 @@ void* transformBlocks(void* args)
 	
 	return (NULL);
 }
-
-void displayBlock(void* args)
+// Used for debugging purposes
+/* void displayBlock(void* args)
 {
 
-	// Creat the struct
+	// Create the struct
 	struct matrixBlockTransformProps *matPropsDisp = (struct matrixBlockTransformProps*)args;
 
 	int count = 0;
@@ -271,7 +262,7 @@ void displayBlocks(void* args)
 			count = 0;
 		}
 	}
-}
+}*/
 
 void* DiagBlockTransform(void* args)
 {
@@ -286,7 +277,6 @@ void* DiagBlockTransform(void* args)
 	for (int i = matTemp->startPlaceHolder1; i <= matTemp->endPlaceHolder1; i++)
 	{	
 		matTemp->transpose1[placeHolder] = matTemp->numbers[i];
-		//cout << matTemp->transpose1[placeHolder] << "      " << placeHolder << endl;
 		rowCount++;
 		
 		if(rowCount == matTemp->blockDim+1)
@@ -307,7 +297,6 @@ void* DiagBlockTransform(void* args)
 	for (int i = matTemp->startPlaceHolder1; i <= matTemp->endPlaceHolder1; i++)
 	{
 		matTemp->numbers[i] = matTemp->transpose1[placeHolder];
-		//cout << matTemp->transpose1[placeHolder] << "      " << placeHolder << endl;
 		rowCount++;
 		
 		if(rowCount == matTemp->blockDim+1)
@@ -318,9 +307,6 @@ void* DiagBlockTransform(void* args)
 		}
 		placeHolder++;
 	}
-	//displayBlock((void *) matTemp);
-	//cin.get();
-
 }
 
 void* BlockTransformSwap(void* args)
@@ -337,7 +323,6 @@ void* BlockTransformSwap(void* args)
 	for (int i = matTemp->startPlaceHolder1; i <= matTemp->endPlaceHolder1; i++)
 	{	
 		matTemp->transpose1[placeHolder] = matTemp->numbers[i];
-		//cout << matTemp->transpose1[placeHolder] << "      " << placeHolder << endl;
 		rowCount++;
 		
 		if(rowCount == matTemp->blockDim+1)
@@ -357,7 +342,6 @@ void* BlockTransformSwap(void* args)
 	for (int i = matTemp->startPlaceHolder2; i <= matTemp->endPlaceHolder2; i++)
 	{	
 		matTemp->transpose2[placeHolder] = matTemp->numbers[i];
-		//cout << matTemp->numbers[i] << "      " << placeHolder << endl;
 		rowCount++;
 		
 		if(rowCount == matTemp->blockDim+1)
@@ -369,12 +353,12 @@ void* BlockTransformSwap(void* args)
 		placeHolder++;
 	}
 
-	//displayBlocks((void *) matTemp);
+	//displayBlocks((void *) matTemp); // Used for debugging purposes
 
 	// Transpose the blocks
 	transformBlocks((void *) matTemp);
 
-	//displayBlocks((void *) matTemp);
+	//displayBlocks((void *) matTemp); // Used for debugging purposes
 	
 	// Swap The Blocks
 	int temp[matTemp->blockDim*matTemp->blockDim] = {}; 
@@ -409,16 +393,10 @@ void* BlockTransformSwap(void* args)
 		if(rowCount == matTemp->blockDim+1)
 		{
 			i += offset;
-			rowCount = 1;
-			
+			rowCount = 1;	
 		}
 		placeHolder++;
 	}
-
-
-
-
-
 }
 
 int userInput()
