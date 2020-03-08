@@ -444,7 +444,7 @@ int main ( int argc, char* argv[] )
 	int randomSize = 16;
 
 	// User input
-	randomSize = userInput();
+	randomSize = 64;
 	
 	srand(time(NULL));
 
@@ -543,8 +543,8 @@ int main ( int argc, char* argv[] )
 	// Repopulate Array
 	for (int i = 0; i < (randomSize*randomSize); i++)
 	{  
-		matProps2->numbers[i] = rand() % randomSize; 
-		//matProps2->numbers[i] = i+1; // Used for testing purposes
+		//matProps2->numbers[i] = rand() % randomSize; 
+		matProps2->numbers[i] = i+1; // Used for testing purposes
 	}
 
 	// This was used originally to change the number of threads based on the size of the blocks wanted
@@ -557,7 +557,7 @@ int main ( int argc, char* argv[] )
 
 
 	// Calculate the how many blocks and the dimensions of the blocks needed to execute the transposition 		based on the number of threads defined.
-	const int numberThreads = 10;
+	const int numberThreads = 136;
 	int numBlocks = numberThreads;
 	
 	//Block size will increase to suit number of threads
@@ -583,8 +583,8 @@ int main ( int argc, char* argv[] )
 		// Create the struct for the thread
 		matrixBlockTransformProps *mat = (struct matrixBlockTransformProps*) malloc(sizeof(struct matrixBlockTransformProps));
 		mat->numbers = matProps2->numbers;
-		mat->transpose1 = matProps2->transpose1;
-		mat->transpose2 = matProps2->transpose2;
+		mat->transpose1 = new int [blockSize];
+		mat->transpose2 = new int [blockSize];
 		mat->randomSize = matProps2->randomSize; 
 		mat->blockSize = blockSize;
 		mat->blockDim = blockSizeDim;
@@ -615,8 +615,8 @@ int main ( int argc, char* argv[] )
 		// Create the struct for the thread
 		matrixBlockTransformProps *mat = (struct matrixBlockTransformProps*) malloc(sizeof(struct matrixBlockTransformProps));
 		mat->numbers = matProps2->numbers;
-		mat->transpose1 = matProps2->transpose1;
-		mat->transpose2 = matProps2->transpose2;
+		mat->transpose1 = new int [blockSize];
+		mat->transpose2 = new int [blockSize];
 		mat->randomSize = matProps2->randomSize; 
 		mat->blockSize = blockSize;
 		mat->blockDim = blockSizeDim;
