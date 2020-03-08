@@ -421,13 +421,9 @@ void* BlockTransformSwap(void* args)
 
 }
 
-int main ( int argc, char* argv[] )
+int userInput()
 {
-	// Define clock
-	clock_t start_t, end_t;
-	int randomSize = 16;
-
-	// User input
+	int randomSize = 0;
 	while (randomSize != 128 | randomSize != 1024 | randomSize != 2048 | randomSize != 4096)
 	{
 		cout << "Please enter either, 128, 1024, 2048 or 4096 for the size of the matrix you want to do transform: ";
@@ -435,9 +431,20 @@ int main ( int argc, char* argv[] )
 		if (randomSize == 128 || randomSize == 1024 || randomSize == 2048 || randomSize == 4096)
 		{
 			cout << endl;
-			break;
+			return randomSize;
 		}
 	}
+
+}
+
+int main ( int argc, char* argv[] )
+{
+	// Define clock
+	clock_t start_t, end_t;
+	int randomSize = 16;
+
+	// User input
+	randomSize = userInput();
 	
 	srand(time(NULL));
 
@@ -653,7 +660,7 @@ int main ( int argc, char* argv[] )
 	cout << "Number of Threads: " << numberThreads << endl;
 	cout << "Number of Blocks: " << numBlocks << endl;
 	cout << "Block Size (Number of Elements in Block): " << blockSize << endl;
-	cout << "Block Dimension: " << blockSizeDim << endl;
+	cout << "Block Dimension (Height or Width as its square): " << blockSizeDim << endl;
 	cout << "Time taken to execute: " << (double)(end_t - start_t)/CLOCKS_PER_SEC << "s" << endl;
 
 	//display((void *) matProps2); // Display final matrix after transformation. Used for testing
